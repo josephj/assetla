@@ -1,9 +1,9 @@
 <?php
 
 require './vendor/autoload.php';
-require './lib/AssetaticFile.php';
+require './src/AssetaticFile.php';
 
-class TestAsstaticFile extends PHPUnit_Framework_TestCase
+class AsstaticFileTest extends PHPUnit_Framework_TestCase
 {
     public $test_files = array('test/fixture/a.js', 'test/fixture/b.coffee');
     public $result_files = array('test/fixture/a_result.js', 'test/fixture/b_result.js');
