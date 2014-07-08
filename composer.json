@@ -3,6 +3,9 @@
     "require": {
         "kriswallsmith/assetic": "*"
     },
+   "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    },
     "license": "MIT",
     "authors": [
         {
