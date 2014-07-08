@@ -1,0 +1,13 @@
+{
+    "name": "josephj/assetic-wrapper",
+    "require": {
+        "kriswallsmith/assetic": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "josephj",
+            "email": "josephj6802@gmail.com"
+        }
+    ]
+}
