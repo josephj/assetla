@@ -1,2 +1,4 @@
 /vendor/
 /.bundle
+/.sass-cache
+/node_modules

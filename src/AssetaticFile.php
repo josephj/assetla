@@ -31,14 +31,10 @@ class AssetaticFile
         $this->filters = array();
         $this->config = new StdClass();
         $this->config->minify            = (isset($config['minify'])) ? $config['minify'] : false;
-        $this->config->coffeePath        = (isset($config['coffeePath'])) ? $config['coffeePath'] : '/usr/bin/coffee';
-        $this->config->sassPath          = (isset($config['sassPath'])) ? $config['sassPath'] : '/usr/bin/sass';
-        $this->config->uglifyJsPath      = (isset($config['uglifyJsPath'])) ? $config['uglifyJsPath'] : '/usr/bin/uglifyjs'; // Version 2
-        $this->config->uglifyCssPath     = (isset($config['uglifyCssPath'])) ? $config['uglifyCssPath'] : '/usr/bin/uglifycss';
-        $this->config->nodeCoffeePath    = (isset($config['nodeCoffeePath'])) ? $config['nodeCoffeePath'] : null;
-        $this->config->nodeSassPath      = (isset($config['nodeSassPath'])) ? $config['nodeSassPath'] : null;
-        $this->config->nodeUglifyJsPath  = (isset($config['nodeUglifyJsPath'])) ? $config['nodeUglifyJsPath'] : null;
-        $this->config->nodeUglifyCssPath = (isset($config['nodeUglifyCssPath'])) ? $config['nodeUglifyCssPath'] : null;
+        $this->config->coffeePath        = (isset($config['coffeePath'])) ? $config['coffeePath'] : 'node_modules/coffee-script/bin/coffee';
+        $this->config->sassPath          = (isset($config['sassPath'])) ? $config['sassPath'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
+        $this->config->uglifyJsPath      = (isset($config['uglifyJsPath'])) ? $config['uglifyJsPath'] : 'node_modules/uglify-js/bin/uglifyjs';
+        $this->config->uglifyCssPath     = (isset($config['uglifyCssPath'])) ? $config['uglifyCssPath'] : 'node_modules/uglifycss/uglifycss';
     }
 
     private static function find($path)
@@ -73,12 +69,12 @@ class AssetaticFile
         $coffeePath = $this->config->coffeePath;
         switch ($type) {
             case 'scss':
-                $this->filters[] = new ScssFilter($this->config->sassPath, $this->config->nodeSassPath);
+                $this->filters[] = new ScssFilter($this->config->sassPath);
             case 'sass':
-                $this->filters[] = new SassFilter($this->config->sassPath, $this->config->nodeSassPath);
+                $this->filters[] = new SassFilter($this->config->sassPath);
             break;
             case 'coffee':
-                $this->filters[] = new CoffeeScriptFilter($this->config->coffeePath, $this->config->nodeCoffeePath);
+                $this->filters[] = new CoffeeScriptFilter($this->config->coffeePath);
             break;
         }
         return $this->filters;
@@ -90,11 +86,11 @@ class AssetaticFile
             case 'css':
             case 'scss':
             case 'sass':
-                $this->filters[] = new UglifyCssFilter($this->config->uglifyCssPath, $this->config->nodeUglifyCssPath);
+                $this->filters[] = new UglifyCssFilter($this->config->uglifyCssPath);
             break;
             case 'js':
             case 'coffee':
-                $this->filters[] = new UglifyJsFilter($this->config->uglifyJsPath, $this->config->nodeUglifyJsPath);
+                $this->filters[] = new UglifyJsFilter($this->config->uglifyJsPath);
             break;
         }
         return $this->filters;
