@@ -60,6 +60,23 @@ class AsstaticFileTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $value);
     }
 
+    public function testDumpSassMin()
+    {
+        $value = new AssetaticFile('tests/fixture/sass.sass');
+        $value = $value->dump();
+        $expected = file_get_contents('tests/fixture/sass.min.css');
+        $this->assertEquals($expected, $value);
+    }
+
+    public function testDumpScssMin()
+    {
+        $value = new AssetaticFile('tests/fixture/scss.scss');
+        $value = $value->dump();
+        $expected = file_get_contents('tests/fixture/scss.min.css');
+        $this->assertEquals($expected, $value);
+    }
+
+
 }
 
 
