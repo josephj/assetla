@@ -14,6 +14,7 @@ use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\Filter\CoffeeScriptFilter;
 use Assetic\Filter\UglifyJsFilter;
+use Assetic\Filter\UglifyCssFilter;
 use Assetic\Filter\Sass\SassFilter;
 use Assetic\Filter\Sass\ScssFilter;
 
