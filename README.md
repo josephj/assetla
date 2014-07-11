@@ -9,6 +9,10 @@ Make modules for your CSS and JavaScript files. These files can be *.css, *.sass
 
 ````php
 array(
+    'paths' => array(
+        '$DEV_ROOT/media',
+        '$DEV_ROOT/media/components',
+    ),
     'modules' => array(
         'admin_core' => array(
             'css' => array(
@@ -33,8 +37,9 @@ array(
 ### General Usage
 
 ```php
-<?php echo Assetatic::stylesheet_tags('admin_core'); ?>
-<?php echo Assetatic::javascript_tags('admin_core'); ?>
+<?php $assetatic = new Assetatic('config.php'); ?>
+<?php echo $assetatic->stylesheet_tags('admin_core'); ?>
+<?php echo $assetatic->javascript_tags('admin_core'); ?>
 ```
 
 It will output the following HTML.
