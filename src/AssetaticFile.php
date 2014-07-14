@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Normalize Coffee, JavaScript, SASS, SCSS, and CSS files
+ * Normalize single file of Coffee, JavaScript, SASS, SCSS, and CSS
  * to browser-readable JavaScript and CSS format according to their extension.
  *
  *     $file = new AssetaticFile('./assets/foo.coffee', false);
@@ -31,11 +31,15 @@ class AssetaticFile
         $this->type = self::getType($this->file);
         $this->filters = array();
         $this->config = new StdClass();
-        $this->config->minify            = (isset($config['minify'])) ? $config['minify'] : false;
-        $this->config->coffeePath        = (isset($config['coffeePath'])) ? $config['coffeePath'] : 'node_modules/coffee-script/bin/coffee';
-        $this->config->sassPath          = (isset($config['sassPath'])) ? $config['sassPath'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
-        $this->config->uglifyJsPath      = (isset($config['uglifyJsPath'])) ? $config['uglifyJsPath'] : 'node_modules/uglify-js/bin/uglifyjs';
-        $this->config->uglifyCssPath     = (isset($config['uglifyCssPath'])) ? $config['uglifyCssPath'] : 'node_modules/uglifycss/uglifycss';
+        // Minify (Default false)
+        $this->config->minify        = (isset($config['minify'])) ? $config['minify'] : false;
+        // Compilers (Use local first)
+        $this->config->coffeePath    = (isset($config['coffeePath'])) ? $config['coffeePath'] : 'node_modules/coffee-script/bin/coffee';
+        $this->config->sassPath      = (isset($config['sassPath'])) ? $config['sassPath'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
+        $this->config->uglifyCssPath = (isset($config['uglifyCssPath'])) ? $config['uglifyCssPath'] : 'node_modules/uglifycss/uglifycss';
+        $this->config->uglifyJsPath  = (isset($config['uglifyJsPath'])) ? $config['uglifyJsPath'] : 'node_modules/uglify-js/bin/uglifyjs';
+        // Output Folder (Optional, save to same directory)
+        $this->config->outputFolder  = (isset($config['outputFolder'])) ? $config['outputFolder'] : null;
     }
 
     private static function find($path)
@@ -63,6 +67,48 @@ class AssetaticFile
         }
         $result = new AssetCollection($file, $this->filters);
         return $result->dump();
+    }
+
+    public function save($targetDir = null)
+    {
+        // Decide output directory.
+        if (!isset($targetDir)) { // via argument
+            if (isset($this->config->outputFolder)) { // via config
+                $targetDir = $this->config->outputFolder;
+            } else { // nothing provided, from file path
+                $targetDir = $this->file;
+            }
+        }
+        if (is_file($targetDir)) {
+            $targetDir = pathinfo($targetDir);
+            $targetDir = $targetDir['dirname'];
+        }
+        if (!file_exists($targetDir)) {
+            if (!mkdir($targetDir)) {
+                throw new FileNotFoundException("File not found: " . $targetDir);
+            }
+        }
+        $targetDir = rtrim($targetDir, '/') . '/';
+        // Decide file name and extension.
+        $filename = pathinfo($this->file);
+        $filename = $filename['filename'];
+        switch ($this->type) {
+            case 'css':
+            case 'less':
+            case 'scss':
+            case 'sass':
+                $extension = 'css';
+            break;
+            case 'js':
+            case 'coffee':
+                $extension = 'js';
+            break;
+        }
+
+        // Output file
+        $targetPath = "{$targetDir}{$filename}.{$extension}";
+        $content = $this->dump();
+        return file_put_contents($targetPath, $content);
     }
 
     private function setTypeFilter($type)
