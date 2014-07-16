@@ -1,4 +1,6 @@
 <?php
+require './src/AssetaticFile.php';
+
 class Assetatic
 {
     protected $config_file;
@@ -58,6 +60,49 @@ class Assetatic
         return isset($_SERVER[$matches[1]]) ? $_SERVER[$matches[1]] : "$" . $matches[1];
     }
 
+    /**
+     * Compile file according to it's extension.
+     */
+    public function compile($file_path, $minify = false)
+    {
+        $file_path = $this->findFile($file_path);
+        $assetatic_file = new AssetaticFile($file_path, array('minify' => $minify));
+        return $assetatic_file->dump();
+    }
+
+    public function _filter($path)
+    {
+        $types = ['sass', 'scss', 'coffee'];
+        $parts = pathinfo($path);
+        $extension = $parts['extension'];
+        if (in_array($extension, $types)) {
+            $file = new AssetaticFile($path);
+            $path = $file->save($this->config['outputFolder']);
+        }
+        return $path;
+    }
+
+    public function stylesheet_tags($module, $single = false)
+    {
+        $paths = $this->config['modules'][$module]['css'];
+        $html = array();
+        foreach ($paths as $path) {
+            $path = $this->_filter($path);
+            $html[] = "<link rel=\"stylesheet\" href=\"{$path}\">";
+        }
+        return implode("\n", $html);
+    }
+
+    public function javascript_tags($module, $single = false)
+    {
+        $paths = $this->config['modules'][$module]['css'];
+        $html = array();
+        foreach ($paths as $path) {
+            $path = $this->_filter($path);
+            $html[] = "<script src=\"{$path}\"></script>";
+        }
+        return implode("\n", $html);
+    }
 }
 
 ?>
