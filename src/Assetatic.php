@@ -95,7 +95,7 @@ class Assetatic
 
     public function javascript_tags($module, $single = false)
     {
-        $paths = $this->config['modules'][$module]['css'];
+        $paths = $this->config['modules'][$module]['js'];
         $html = array();
         foreach ($paths as $path) {
             $path = $this->_filter($path);

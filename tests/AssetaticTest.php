@@ -73,13 +73,18 @@ PRINTED;
         unset($assetatic);
     }
 
-    //public function testJavaScriptTags()
-    //{
-        //$assetatic = new Assetatic('tests/fixture/config.php');
-
-        //unset($assetatic);
-
-    //}
+    public function testJavaScriptTags()
+    {
+        $assetatic = new Assetatic('tests/fixture/config.php');
+        $value = $assetatic->javascript_tags('admin_core');
+        $expected =<<<PRINTED
+<script src="tests/fixture/assets/js/jquery.js"></script>
+<script src="tests/fixture/assets/js/a.js"></script>
+<script src="tests/fixture/assets/output/b.js"></script>
+PRINTED;
+        $this->assertEquals($expected, $value);
+        unset($assetatic);
+    }
 
 }
 

@@ -108,7 +108,7 @@ class AssetaticFile
         // Output file
         $targetPath = "{$targetDir}{$filename}.{$extension}";
         $content = $this->dump();
-        return file_put_contents($targetPath, $content);
+        return (file_put_contents($targetPath, $content)) ? $targetPath : false;
     }
 
     private function setTypeFilter($type)

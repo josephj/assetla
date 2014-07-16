@@ -13,9 +13,9 @@ return array(
                 'tests/fixture/assets/css/reset.css',
             ),
             'js' => array(
-                'js/jquery.js',
-                'js/a.js',
-                'js/b.coffee',
+                'tests/fixture/assets/js/jquery.js',
+                'tests/fixture/assets/js/a.js',
+                'tests/fixture/assets/js/b.coffee',
             ),
         ),
     ),
