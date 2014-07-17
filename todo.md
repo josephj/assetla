@@ -6,6 +6,7 @@ TODO List
 * Evaluate Source Map
 * Support S3
 * Expose to Composer
+  * https://packagist.org/
 * Add code convention
 * Root
 * Deploy
