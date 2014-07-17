@@ -63,14 +63,15 @@ class AsstaticTest extends PHPUnit_Framework_TestCase
     public function testStylesheetTags()
     {
         $assetatic = new Assetatic('tests/fixture/config.php');
+
+        // General
         $value = $assetatic->stylesheet_tags('admin_core');
         $expected =<<<PRINTED
 <link rel="stylesheet" href="tests/fixture/assets/css/a.css">
 <link rel="stylesheet" href="tests/fixture/assets/output/b.css">
-<link rel="stylesheet" href="tests/fixture/assets/css/reset.css">
+<link rel="stylesheet" href="tests/fixture/vendor/css/reset.css">
 PRINTED;
         $this->assertEquals($expected, $value);
-        unset($assetatic);
     }
 
     public function testJavaScriptTags()
@@ -84,6 +85,13 @@ PRINTED;
 PRINTED;
         $this->assertEquals($expected, $value);
         unset($assetatic);
+    }
+
+    public function testCombine()
+    {
+        $assetatic = new Assetatic('tests/fixture/config.php');
+        $assetatic->combine('admin_core', 'css');
+        $this->assertTrue(file_exists('tests/fixture/assets/output/admin_core.css'));
     }
 
 }

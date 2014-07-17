@@ -82,6 +82,18 @@ class Assetatic
         return $path;
     }
 
+    public function combine($module, $type, $is_minify = false) {
+        $files = $this->config['modules'][$module][$type];
+        $save_path = $this->config['outputFolder'] . "/$module.$type";
+        $handle = fopen($save_path, "w+");
+        foreach ($files as $file) {
+            $file = $this->_filter($file);
+            $content = file_get_contents($file);
+            fwrite($handle, $content);
+        }
+        fclose($handle);
+    }
+
     public function stylesheet_tags($module, $single = false)
     {
         $paths = $this->config['modules'][$module]['css'];

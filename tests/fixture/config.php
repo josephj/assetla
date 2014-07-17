@@ -10,7 +10,7 @@ return array(
             'css' => array(
                 'tests/fixture/assets/css/a.css',
                 'tests/fixture/assets/css/b.sass',
-                'tests/fixture/assets/css/reset.css',
+                'tests/fixture/vendor/css/reset.css',
             ),
             'js' => array(
                 'tests/fixture/assets/js/jquery.js',
