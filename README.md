@@ -9,10 +9,7 @@ Make modules for your CSS and JavaScript files. These files can be *.css, *.sass
 
 ````php
 array(
-    'paths' => array(
-        '$DEV_ROOT/media',
-        '$DEV_ROOT/media/components',
-    ),
+    'outputFolder' => 'assets',
     'modules' => array(
         'admin_core' => array(
             'css' => array(
@@ -49,12 +46,12 @@ It will output the following HTML.
 <link type="stylesheet" href="media/css/admin/reset.css"/>
 <link type="stylesheet" href="media/css/admin/text.css"/>
 <link type="stylesheet" href="media/css/admin/fluid.css"/>
-<link type="stylesheet" href="media/assetatic.php?f=media/css/core/button.scss "/> <!-- Dynamic compile -->
+<link type="stylesheet" href="assets/button.css "/> <!-- button.scss -->
 <!-- admin_core.css (end) -->
 <!-- admin_core.js (end) -->
 <script src="media/js/admin/jquery-1.8.1.min.js"></script>
 <script src="media/js/admin/jquery.mousewheel-min.js"></script>
-<script src="media/assetatic.php?file=media/js/admin/event.coffee "></script> <!-- Dynamic compile -->
+<script src="assets/event.js"></script> <!-- event.coffee -->
 <!-- admin_core.js (end) -->
 ```
 
@@ -71,10 +68,10 @@ It will output the following HTML.
 
 ```html
 <!-- admin_core.css (start) -->
-<link type="stylesheet" href="media/assetatic.php?module=admin_core "/> <!-- Dynamic compile -->
+<link type="stylesheet" href="assets/admin_core.css"/>
 <!-- admin_core.css (end) -->
 <!-- admin_core.js (end) -->
-<script src="media/assetatic.php?module=admin_core"></script> <!-- Dynamic compile -->
+<script src="assets/admin_core.js"></script>
 <!-- admin_core.js (end) -->
 ```
 
