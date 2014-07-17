@@ -3,6 +3,8 @@ Assetatic
 
 A wrapper of Assetic. (underconstruction)
 
+[![Code Climate](https://codeclimate.com/github/josephj/assetatic.png)](https://codeclimate.com/github/josephj/assetatic)
+
 ## Configuration File
 
 Make modules for your CSS and JavaScript files. These files can be *.css, *.sass, *.coffee, and *.js.
