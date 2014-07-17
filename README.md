@@ -98,3 +98,11 @@ array(
     ),
 );
 ```
+
+## Installation
+
+1. git clone
+1. bundle
+1. npm install .
+1. Set config
+1. Output css/js tags.

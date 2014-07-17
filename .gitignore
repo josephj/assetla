@@ -2,3 +2,4 @@
 /.bundle
 /.sass-cache
 /node_modules
+/tests/fixture/assets/output/
