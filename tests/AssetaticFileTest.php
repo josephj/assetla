@@ -1,7 +1,6 @@
 <?php
 
-require './vendor/autoload.php';
-require './src/AssetaticFile.php';
+require_once './src/AssetaticFile.php';
 
 class AsstaticFileTest extends PHPUnit_Framework_TestCase
 {

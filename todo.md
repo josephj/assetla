@@ -8,15 +8,15 @@ TODO List
 * Expose to Composer
   * https://packagist.org/
 * Add code convention
+  * http://kohanaframework.org/3.0/guide/kohana/conventions
 * Root
 * Deploy
 * Install script
 
 ## Ongoing
 
-* Minify after Combine
 
 ## Finished
 
 * Combine
-
+* Minify after Combine

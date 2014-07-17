@@ -1,5 +1,5 @@
 <?php
-require './src/AssetaticFile.php';
+require_once './src/AssetaticFile.php';
 
 class Assetatic
 {
