@@ -13,7 +13,7 @@ return array(
                 'tests/fixture/vendor/css/reset.css',
             ),
             'js' => array(
-                'tests/fixture/assets/js/jquery.js',
+                'tests/fixture/vendor/js/jquery.js',
                 'tests/fixture/assets/js/a.js',
                 'tests/fixture/assets/js/b.coffee',
             ),

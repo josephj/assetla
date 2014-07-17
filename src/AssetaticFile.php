@@ -49,7 +49,7 @@ class AssetaticFile
         {
             return $filePath;
         }
-        throw new FileNotFoundException("File not found: " . $path);
+        throw new Exception("File not found: " . $path);
     }
 
     private static function getType($file)

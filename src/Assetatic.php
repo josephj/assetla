@@ -82,38 +82,54 @@ class Assetatic
         return $path;
     }
 
+    // Combine all the module files and save to a single file
     public function combine($module, $type, $is_minify = false) {
         $files = $this->config['modules'][$module][$type];
-        $save_path = $this->config['outputFolder'] . "/$module.$type";
+        if (!$is_minify) {
+            $save_path = $this->config['outputFolder'] . "/$module.$type";
+        } else {
+            $save_path = $this->config['outputFolder'] . "/$module.min.$type";
+        }
         $handle = fopen($save_path, "w+");
         foreach ($files as $file) {
-            $file = $this->_filter($file);
-            $content = file_get_contents($file);
-            fwrite($handle, $content);
+            $file = new AssetaticFile($file, array('minify' => true));
+            fwrite($handle, $file->dump());
+            unset($file);
         }
         fclose($handle);
+        return $save_path;
     }
 
     public function stylesheet_tags($module, $single = false)
     {
-        $paths = $this->config['modules'][$module]['css'];
-        $html = array();
-        foreach ($paths as $path) {
-            $path = $this->_filter($path);
-            $html[] = "<link rel=\"stylesheet\" href=\"{$path}\">";
+        if ($single == true) {
+            $path = $this->combine($module, 'css');
+            return "<link href=\"$path\">";
+        } else {
+            $html = array();
+            $paths = $this->config['modules'][$module]['css'];
+            foreach ($paths as $path) {
+                $path = $this->_filter($path);
+                $html[] = "<link rel=\"stylesheet\" href=\"{$path}\">";
+            }
+            return implode("\n", $html);
         }
-        return implode("\n", $html);
     }
 
     public function javascript_tags($module, $single = false)
     {
-        $paths = $this->config['modules'][$module]['js'];
-        $html = array();
-        foreach ($paths as $path) {
-            $path = $this->_filter($path);
-            $html[] = "<script src=\"{$path}\"></script>";
+        if ($single == true) {
+            $path = $this->combine($module, 'js');
+            return "<script src=\"$path\"></script>";
+        } else {
+            $html = array();
+            $paths = $this->config['modules'][$module]['js'];
+            foreach ($paths as $path) {
+                $path = $this->_filter($path);
+                $html[] = "<script src=\"{$path}\"></script>";
+            }
+            return implode("\n", $html);
         }
-        return implode("\n", $html);
     }
 }
 
