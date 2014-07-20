@@ -4,6 +4,7 @@ Assetatic
 A wrapper of Assetic. (underconstruction)
 
 [![Code Climate](https://codeclimate.com/github/josephj/assetatic.png)](https://codeclimate.com/github/josephj/assetatic)
+[![Travis CI](https://travis-ci.org/josephj/assetatic.svg)](https://travis-ci.org/josephj/assetatic)
 
 ## Configuration File
 
