@@ -2,24 +2,26 @@
 
 require_once './src/Assetatic.php';
 
-class AsstaticTest extends PHPUnit_Framework_TestCase
-{
+class AsstaticTest extends PHPUnit_Framework_TestCase {
 
-    protected function setUp()
-    {
-        //$this->assetatic = new Assetatic('tests/fixture/config.php');
+    protected $assetatic;
+
+    protected function setUp() {
+        $this->assetatic = new Assetatic('tests/fixture/config.php');
     }
 
-    public function testFind()
-    {
+    protected function tearDown() {
+        unset($this->assetatic);
+    }
+
+    public function test_find() {
         $value = Assetatic::find('css/a.css', array('tests/fixture/assets'));
         $expected = 'tests/fixture/assets/css/a.css';
         $this->assertEquals($expected, $value);
     }
 
-    public function testFindFile()
-    {
-        $assetatic = new Assetatic('tests/fixture/config.php');
+    public function test_find_file() {
+        $assetatic = $this->assetatic;
 
         $value = $assetatic->findFile('css/a.css');
         $expected = 'tests/fixture/assets/css/a.css';
@@ -36,15 +38,12 @@ class AsstaticTest extends PHPUnit_Framework_TestCase
         $value = $assetatic->findFile('css/reset.css');
         $expected = 'tests/fixture/vendor/css/reset.css';
         $this->assertEquals($expected, $value);
-
-        unset($assetatic);
     }
 
-    public function testStylesheetTags()
-    {
-        $assetatic = new Assetatic('tests/fixture/config.php');
+    public function test_stylesheet_tags() {
+        $assetatic = $this->assetatic;
 
-        // General
+        // General CSS
         $value = $assetatic->stylesheet_tags('admin_core');
         $expected =<<<PRINTED
 <link rel="stylesheet" href="tests/fixture/assets/css/a.css">
@@ -53,19 +52,16 @@ class AsstaticTest extends PHPUnit_Framework_TestCase
 PRINTED;
         $this->assertEquals($expected, $value);
 
-        // Combine
+        // Combined CSS
         $value = $assetatic->stylesheet_tags('admin_core', true);
-        $expected = '<link href="tests/fixture/assets/output/admin_core.css">';
+        $expected = '<link rel="stylesheet" href="tests/fixture/assets/output/admin_core.css">';
         $this->assertEquals($expected, $value);
-
-        unset($assetatic);
     }
 
-    public function testJavaScriptTags()
-    {
-        $assetatic = new Assetatic('tests/fixture/config.php');
+    public function test_javascript_tags() {
+        $assetatic = $this->assetatic;
 
-        // Separate
+        // General JS
         $value = $assetatic->javascript_tags('admin_core');
         $expected =<<<PRINTED
 <script src="tests/fixture/vendor/js/jquery.js"></script>
@@ -74,18 +70,14 @@ PRINTED;
 PRINTED;
         $this->assertEquals($expected, $value);
 
-        // Combine
+        // Combined JS
         $value = $assetatic->javascript_tags('admin_core', true);
         $expected = '<script src="tests/fixture/assets/output/admin_core.js"></script>';
         $this->assertEquals($expected, $value);
-
-
-        unset($assetatic);
     }
 
-    public function testCombine()
-    {
-        $assetatic = new Assetatic('tests/fixture/config.php');
+    public function test_combine() {
+        $assetatic = $this->assetatic;
 
         $assetatic->combine('admin_core', 'css');
         $this->assertTrue(file_exists('tests/fixture/assets/output/admin_core.css'));
@@ -98,20 +90,6 @@ PRINTED;
 
         $assetatic->combine('admin_core', 'js', true);
         $this->assertTrue(file_exists('tests/fixture/assets/output/admin_core.js'));
-
-        unset($assetatic);
     }
 
-    protected function rrmdir($dir) {
-        if (is_dir($dir)) {
-            $objects = scandir($dir);
-            foreach ($objects as $object) {
-                if ($object != "." && $object != "..") {
-                    if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
-                }
-            }
-            reset($objects);
-            rmdir($dir);
-        }
-    }
 }

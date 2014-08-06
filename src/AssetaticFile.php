@@ -18,81 +18,77 @@ use Assetic\Filter\UglifyCssFilter;
 use Assetic\Filter\Sass\SassFilter;
 use Assetic\Filter\Sass\ScssFilter;
 
-class AssetaticFile
-{
-    private $file;
-    private $type;
-    private $filters;
-    private $config;
+class AssetaticFile {
 
-    public function __construct($path, $config = array())
-    {
+    private $config;
+    private $file;
+    private $filters;
+    private $type;
+
+    public function __construct($path, $config = array()) {
         $this->file = self::find($path);
-        $this->type = self::getType($this->file);
+        $this->type = self::get_type($this->file);
         $this->filters = array();
         $this->config = new StdClass();
         // Minify (Default false)
         $this->config->minify        = (isset($config['minify'])) ? $config['minify'] : false;
         // Compilers (Use local first)
-        $this->config->coffeePath    = (isset($config['coffeePath'])) ? $config['coffeePath'] : 'node_modules/coffee-script/bin/coffee';
-        $this->config->sassPath      = (isset($config['sassPath'])) ? $config['sassPath'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
-        $this->config->uglifyCssPath = (isset($config['uglifyCssPath'])) ? $config['uglifyCssPath'] : 'node_modules/uglifycss/uglifycss';
-        $this->config->uglifyJsPath  = (isset($config['uglifyJsPath'])) ? $config['uglifyJsPath'] : 'node_modules/uglify-js/bin/uglifyjs';
+        $this->config->coffee_path    = (isset($config['coffee_path'])) ? $config['coffee_path'] : 'node_modules/coffee-script/bin/coffee';
+        $this->config->sass_path      = (isset($config['sass_path'])) ? $config['sass_path'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
+        $this->config->uglify_css_path = (isset($config['uglify_css_path'])) ? $config['uglify_css_path'] : 'node_modules/uglifycss/uglifycss';
+        $this->config->uglify_js_path  = (isset($config['uglify_js_path'])) ? $config['uglify_js_path'] : 'node_modules/uglify-js/bin/uglifyjs';
         // Output Folder (Optional, save to same directory)
-        $this->config->outputFolder  = (isset($config['outputFolder'])) ? $config['outputFolder'] : null;
+        $this->config->output_folder  = (isset($config['output_folder'])) ? $config['output_folder'] : null;
     }
 
-    private static function find($path)
-    {
-        $filePath = realpath($path);
-        if ($filePath && file_exists($filePath))
+    private static function find($path) {
+        $file_path = realpath($path);
+        if ($file_path && file_exists($file_path))
         {
-            return $filePath;
+            return $file_path;
         }
         throw new Exception("File not found: " . $path);
     }
 
-    private static function getType($file)
-    {
+    private static function get_type($file) {
         $path_parts = pathinfo($file);
         return $path_parts['extension'];
     }
 
-    public function dump()
-    {
+    public function dump() {
         $file = array(new FileAsset($this->file));
-        $this->setTypeFilter($this->type);
+        $this->set_type_filter($this->type);
         if ($this->config->minify) {
-            $this->setMinifyFilter($this->type);
+            $this->set_minify_filter($this->type);
         }
         $result = new AssetCollection($file, $this->filters);
         return $result->dump();
     }
 
-    public function save($targetDir = null)
-    {
+    public function save($target_dir = null) {
         // Decide output directory.
-        if (!isset($targetDir)) { // via argument
-            if (isset($this->config->outputFolder)) { // via config
-                $targetDir = $this->config->outputFolder;
+        if ( ! isset($target_dir)) { // via argument
+            if (isset($this->config->output_folder)) { // via config
+                $target_dir = $this->config->output_folder;
             } else { // nothing provided, from file path
-                $targetDir = $this->file;
+                $target_dir = $this->file;
             }
         }
-        if (is_file($targetDir)) {
-            $targetDir = pathinfo($targetDir);
-            $targetDir = $targetDir['dirname'];
+        if (is_file($target_dir)) {
+            $target_dir = pathinfo($target_dir);
+            $target_dir = $target_dir['dirname'];
         }
-        if (!file_exists($targetDir)) {
-            if (!mkdir($targetDir)) {
-                throw new FileNotFoundException("File not found: " . $targetDir);
+        if ( ! file_exists($target_dir)) {
+            if ( ! mkdir($target_dir)) {
+                throw new FileNotFoundException("File not found: " . $target_dir);
             }
         }
-        $targetDir = rtrim($targetDir, '/') . '/';
+        $target_dir = rtrim($target_dir, '/') . '/';
         // Decide file name and extension.
         $filename = pathinfo($this->file);
         $filename = $filename['filename'];
-        switch ($this->type) {
+        switch ($this->type)
+        {
             case 'css':
             case 'less':
             case 'scss':
@@ -106,38 +102,38 @@ class AssetaticFile
         }
 
         // Output file
-        $targetPath = "{$targetDir}{$filename}.{$extension}";
+        $target_path = "{$target_dir}{$filename}.{$extension}";
         $content = $this->dump();
-        return (file_put_contents($targetPath, $content)) ? $targetPath : false;
+        return (file_put_contents($target_path, $content)) ? $target_path : false;
     }
 
-    private function setTypeFilter($type)
-    {
-        $coffeePath = $this->config->coffeePath;
-        switch ($type) {
+    private function set_type_filter($type) {
+        $coffee_path = $this->config->coffee_path;
+        switch ($type)
+        {
             case 'scss':
-                $this->filters[] = new ScssFilter($this->config->sassPath);
+                $this->filters[] = new ScssFilter($this->config->sass_path);
             case 'sass':
-                $this->filters[] = new SassFilter($this->config->sassPath);
+                $this->filters[] = new SassFilter($this->config->sass_path);
             break;
             case 'coffee':
-                $this->filters[] = new CoffeeScriptFilter($this->config->coffeePath);
+                $this->filters[] = new CoffeeScriptFilter($this->config->coffee_path);
             break;
         }
         return $this->filters;
     }
 
-    private function setMinifyFilter($type)
-    {
-        switch ($type) {
+    private function set_minify_filter($type) {
+        switch ($type)
+        {
             case 'css':
             case 'scss':
             case 'sass':
-                $this->filters[] = new UglifyCssFilter($this->config->uglifyCssPath);
+                $this->filters[] = new UglifyCssFilter($this->config->uglify_css_path);
             break;
             case 'js':
             case 'coffee':
-                $this->filters[] = new UglifyJsFilter($this->config->uglifyJsPath);
+                $this->filters[] = new UglifyJsFilter($this->config->uglify_js_path);
             break;
         }
         return $this->filters;

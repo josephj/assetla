@@ -2,109 +2,95 @@
 
 require_once './src/AssetaticFile.php';
 
-class AsstaticFileTest extends PHPUnit_Framework_TestCase
+class Asstatic_File_Test extends PHPUnit_Framework_TestCase
 {
-    private $test_files   = array('tests/fixture/a.js', 'tests/fixture/b.coffee');
-    private $result_files = array('tests/fixture/a_result.js', 'tests/fixture/b_result.js', 'tests/fixture/a.min.js');
 
-    public function testDumpJs()
-    {
-        $file = $this->test_files[0];
-        $value = new AssetaticFile($file);
-        $value = $value->dump();
-        $expected = file_get_contents($this->result_files[0]);
-        $this->assertEquals($expected, $value);
+    protected $assetatic_file;
+    private $path = 'tests/fixture';
+
+    protected function tearDown() {
+        unset($this->assetatic_file);
     }
 
-    public function testDumpJsMin()
-    {
-        $file = $this->test_files[0];
-        $value = new AssetaticFile($file, array('minify' => true));
-        $value = trim($value->dump());
-        $expected = trim(file_get_contents($this->result_files[2]));
-        $this->assertEquals($expected, $value);
+    public function test_dump_js() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/a.js");
+        $value = $this->assetatic_file->dump();
+        $expect = file_get_contents("{$this->path}/a_result.js");
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpCoffee()
-    {
-        $file = $this->test_files[1];
-        $value = new AssetaticFile($file);
-        $value = $value->dump();
-        $expected = file_get_contents($this->result_files[1]);
-        $this->assertEquals($expected, $value);
+    public function test_dump_js_min() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/a.js", array('minify' => true));
+        $value = $this->assetatic_file->dump();
+        $value = trim($this->assetatic_file->dump());
+        $expect = trim(file_get_contents("{$this->path}/a.min.js"));
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpCoffeeMin()
-    {
-        $file = $this->test_files[0];
-        $value = new AssetaticFile($file, array('minify' => true));
-        $value = trim($value->dump());
-        $expected = trim(file_get_contents($this->result_files[2]));
-        $this->assertEquals($expected, $value);
-        unset($value);
+    public function test_dump_coffee() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/b.coffee");
+        $value = trim($this->assetatic_file->dump());
+        $expect = trim(file_get_contents("{$this->path}/b_result.js"));
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpSass()
-    {
-        $value = new AssetaticFile('tests/fixture/sass.sass');
-        $value = $value->dump();
-        $expected = file_get_contents('tests/fixture/sass.css');
-        $this->assertEquals($expected, $value);
-        unset($value);
+    public function test_dump_coffee_min() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/b.coffee", array('minify' => true));
+        $value = $this->assetatic_file->dump();
+        $expect = trim(file_get_contents("{$this->path}/b_result.min.js"));
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpScss()
-    {
-        $value = new AssetaticFile('tests/fixture/scss.scss');
-        $value = $value->dump();
-        $expected = file_get_contents('tests/fixture/scss.css');
-        $this->assertEquals($expected, $value);
-        unset($value);
+    public function test_dump_sass() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/sass.sass");
+        $value = $this->assetatic_file->dump();
+        $expect = file_get_contents("{$this->path}/sass.css");
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpSassMin()
-    {
-        $value = new AssetaticFile('tests/fixture/sass.sass', array('minify' => true));
-        $value = $value->dump();
-        $expected = file_get_contents('tests/fixture/sass.min.css');
-        $this->assertEquals($expected, $value);
-        unset($value);
+    public function test_dump_sass_min() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/sass.sass", array('minify' => true));
+        $value = $this->assetatic_file->dump();
+        $expect = file_get_contents("{$this->path}/sass.min.css");
+        $this->assertEquals($expect, $value);
     }
 
-    public function testDumpScssMin()
-    {
-        $value = new AssetaticFile('tests/fixture/scss.scss', array('minify' => true));
-        $value = $value->dump();
-        $expected = file_get_contents('tests/fixture/scss.min.css');
-        $this->assertEquals($expected, $value);
-        unset($value);
+    public function test_dump_scss() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/scss.scss");
+        $value = $this->assetatic_file->dump();
+        $expect = file_get_contents("{$this->path}/scss.css");
+        $this->assertEquals($expect, $value);
     }
 
-    public function testSave($targetFolder = '.')
-    {
-        $file = new AssetaticFile('tests/fixture/scss.scss', array('outputFolder' => 'tests/output'));
-        $expected = file_get_contents('tests/fixture/scss.css');
+    public function test_dump_scss_min() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/scss.scss", array('minify' => true));
+        $value = $this->assetatic_file->dump();
+        $expect = file_get_contents("{$this->path}/scss.min.css");
+        $this->assertEquals($expect, $value);
+    }
+
+    public function test_save() {
+        $this->assetatic_file = new AssetaticFile("{$this->path}/scss.scss", array('output_folder' => 'tests/output'));
+        $expect = file_get_contents("{$this->path}/scss.css");
 
         // Set output path via config
-        $file->save();
-        $value = file_get_contents('tests/output/scss.css');
-        $this->assertEquals($expected, $value);
+        $this->assetatic_file->save();
+        $value = file_get_contents("{$this->path}/scss.css");
+        $this->assertEquals($expect, $value);
         unlink('tests/output/scss.css');
 
         // Set output path via method parameter
-        $file->save('tests/output');
+        $this->assetatic_file->save('tests/output');
         $value = file_get_contents('tests/output/scss.css');
-        $this->assertEquals($expected, $value);
+        $this->assertEquals($expect, $value);
         unlink('tests/output/scss.css');
 
         // Save to an non-existent path
-        $file->save('tests/non_exist');
+        $this->assetatic_file->save('tests/non_exist');
         $value = file_get_contents('tests/non_exist/scss.css');
-        $this->assertEquals($expected, $value);
+        $this->assertEquals($expect, $value);
         unlink('tests/non_exist/scss.css');
         rmdir('tests/non_exist');
-
-        unset($file);
     }
 
 }

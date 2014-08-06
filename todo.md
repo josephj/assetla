@@ -7,14 +7,14 @@ TODO List
 * Support S3
 * Expose to Composer
   * https://packagist.org/
-* Add code convention
-  * http://kohanaframework.org/3.0/guide/kohana/conventions
 * Root
 * Deploy
 * Install script
 
 ## Ongoing
 
+* Add code convention
+  * http://kohanaframework.org/3.0/guide/kohana/conventions
 
 ## Finished
 
