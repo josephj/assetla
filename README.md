@@ -1,10 +1,10 @@
-Assetatic
+Assetla
 =========
 
-A wrapper of Assetic. (underconstruction)
+A wrapper for Assetic.
 
-[![Code Climate](https://codeclimate.com/github/josephj/assetatic.png)](https://codeclimate.com/github/josephj/assetatic)
-[![Travis CI](https://travis-ci.org/josephj/assetatic.svg)](https://travis-ci.org/josephj/assetatic)
+[![Code Climate](https://codeclimate.com/github/josephj/assetla.png)](https://codeclimate.com/github/josephj/assetla)
+[![Travis CI](https://travis-ci.org/josephj/assetla.svg)](https://travis-ci.org/josephj/assetla)
 
 ## Configuration File
 
@@ -37,9 +37,9 @@ array(
 ### General Usage
 
 ```php
-<?php $assetatic = new Assetatic('config.php'); ?>
-<?php echo $assetatic->stylesheet_tags('admin_core'); ?>
-<?php echo $assetatic->javascript_tags('admin_core'); ?>
+<?php $assetla = new Assetla('config.php'); ?>
+<?php echo $assetla->stylesheet_tags('admin_core'); ?>
+<?php echo $assetla->javascript_tags('admin_core'); ?>
 ```
 
 It will output the following HTML.
@@ -63,8 +63,8 @@ It will output the following HTML.
 Or you can concatenate to single file for less requests.
 
 ```php
-<?php echo Assetatic::stylesheet_tags('admin_core', true); ?>
-<?php echo Assetatic::javascript_tags('admin_core', true); ?>
+<?php echo Assetla::stylesheet_tags('admin_core', true); ?>
+<?php echo Assetla::javascript_tags('admin_core', true); ?>
 ```
 
 It will output the following HTML.
@@ -83,7 +83,7 @@ It will output the following HTML.
 Execute the following command.
 
 ```
-vendor/assetatic/bin/assetatic precompile config.php
+vendor/assetla/bin/assetla precompile config.php
 ```
 
 It will do minification, concatenation, and overwriting the configuration tasks.

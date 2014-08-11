@@ -1,5 +1,5 @@
 {
-  "name": "assetatic",
+  "name": "assetla",
   "version": "0.0.0",
   "description": "",
   "main": "null",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/josephj/assetatic.git"
+    "url": "git://github.com/josephj/assetla.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/josephj/assetatic/issues"
+    "url": "https://github.com/josephj/assetla/issues"
   },
-  "homepage": "https://github.com/josephj/assetatic",
+  "homepage": "https://github.com/josephj/assetla",
   "dependencies": {
     "coffee-script": "^1.7.1",
     "uglify-js": "^2.4.15",

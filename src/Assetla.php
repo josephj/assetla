@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . "/AssetaticFile.php";
+require_once dirname(__FILE__) . "/AssetlaFile.php";
 
-class Assetatic {
+class Assetla {
 
     protected $root_path;
     protected $config_file;
@@ -55,8 +55,8 @@ class Assetatic {
      */
     public function compile($file_path, $minify = false) {
         $file_path = $this->findFile($file_path);
-        $assetatic_file = new AssetaticFile($file_path, array('minify' => $minify));
-        return $assetatic_file->dump();
+        $assetla_file = new AssetlaFile($file_path, array('minify' => $minify));
+        return $assetla_file->dump();
     }
 
     public function _filter($path) {
@@ -64,7 +64,7 @@ class Assetatic {
         $parts = pathinfo($path);
         $extension = $parts['extension'];
         if (in_array($extension, $types)) {
-            $file = new AssetaticFile($path);
+            $file = new AssetlaFile($path);
             $path = $file->save($this->config['output_path']);
         }
         return $path;
@@ -80,7 +80,7 @@ class Assetatic {
         }
         $handle = fopen($save_path, "w+");
         foreach ($files as $file) {
-            $file = new AssetaticFile($file, array('minify' => true));
+            $file = new AssetlaFile($file, array('minify' => true));
             fwrite($handle, $file->dump());
             unset($file);
         }

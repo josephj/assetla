@@ -4,7 +4,7 @@
  * Normalize single file of Coffee, JavaScript, SASS, SCSS, and CSS
  * to browser-readable JavaScript and CSS format according to their extension.
  *
- *     $file = new AssetaticFile('./assets/foo.coffee', false);
+ *     $file = new AssetlaFile('./assets/foo.coffee', false);
  *     echo $file->output(); // Must be valid JavaScript format.
  */
 
@@ -18,7 +18,7 @@ use Assetic\Filter\UglifyCssFilter;
 use Assetic\Filter\Sass\SassFilter;
 use Assetic\Filter\Sass\ScssFilter;
 
-class AssetaticFile {
+class AssetlaFile {
 
     private $config;
     private $file;

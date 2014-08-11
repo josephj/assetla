@@ -1,5 +1,5 @@
 {
-    "name": "josephj/assetatic",
+    "name": "josephj/assetla",
     "description": "A wrapper of Assetic",
     "require": {
         "kriswallsmith/assetic": "*"

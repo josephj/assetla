@@ -7,7 +7,7 @@
  */
 
 // Required libraries.
-require_once dirname(__FILE__) . '/Assetatic.php';
+require_once dirname(__FILE__) . '/Assetla.php';
 
 set_exception_handler('handleException');
 
@@ -25,12 +25,12 @@ if ( ! in_array($action, array('precompile', 'deploy'))) {
 }
 
 // Read config file
-$assetatic = new Assetatic($config_path);
+$assetla = new Assetla($config_path);
 $config = include $config_path;
 $modules = $config['modules'];
 foreach ($modules as $name => $types) {
     foreach ($types as $type => $files) {
-        $file = $assetatic->combine($name, $type, true, true);
+        $file = $assetla->combine($name, $type, true, true);
         $config['modules'][$name][$type] = array($file);
     }
 }
