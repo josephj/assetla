@@ -1,10 +1,7 @@
 <?php
 return array(
-    'outputFolder' => 'tests/fixture/assets/output',
-    'paths' => array(
-        'tests/fixture/assets/',
-        'tests/fixture/vendor/',
-     ),
+    'root_path' => '.',
+    'output_path' => 'tests/fixture/assets/output',
     'modules' => array(
         'admin_core' => array(
             'css' => array(

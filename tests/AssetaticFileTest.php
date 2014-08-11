@@ -70,7 +70,7 @@ class Asstatic_File_Test extends PHPUnit_Framework_TestCase
     }
 
     public function test_save() {
-        $this->assetatic_file = new AssetaticFile("{$this->path}/scss.scss", array('output_folder' => 'tests/output'));
+        $this->assetatic_file = new AssetaticFile("{$this->path}/scss.scss", array('output_path' => 'tests/output'));
         $expect = file_get_contents("{$this->path}/scss.css");
 
         // Set output path via config

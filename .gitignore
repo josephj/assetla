@@ -3,3 +3,4 @@
 /.sass-cache
 /node_modules
 /tests/fixture/assets/output/
+/tests/fixture/config.production.php

@@ -1,8 +1,9 @@
 <?php
-require_once './src/AssetaticFile.php';
+require_once dirname(__FILE__) . "/AssetaticFile.php";
 
 class Assetatic {
 
+    protected $root_path;
     protected $config_file;
     protected $config;
     protected $paths;
@@ -15,9 +16,7 @@ class Assetatic {
     private function load() {
         $config = include $this->config_file;
         $this->config = $config;
-        foreach ($this->config['paths'] as $path) {
-            $this->paths[] = preg_replace_callback('/\$([A-Z][0-9A-Z_]*)/', array($this, "resolve"), $path);
-        }
+        $this->root_path = (isset($this->config['root_path'])) ? $this->config['root_path'] : '.';
     }
 
    /**
@@ -37,11 +36,11 @@ class Assetatic {
                 return $file_path;
             }
         }
-        throw new FileNotFoundException("File not found: " . $file_name);
+        throw new Exception("File not found: " . $file_name);
     }
 
     public function findFile($file_name) {
-        return (strpos($file_name, "http://") === 0) ? $file_name : self::find($file_name, $this->paths);
+        return self::find($file_name, $this->config_path);
     }
 
     /**
@@ -66,18 +65,18 @@ class Assetatic {
         $extension = $parts['extension'];
         if (in_array($extension, $types)) {
             $file = new AssetaticFile($path);
-            $path = $file->save($this->config['outputFolder']);
+            $path = $file->save($this->config['output_path']);
         }
         return $path;
     }
 
     // Combine all the module files and save to a single file
-    public function combine($module, $type, $is_minify = false) {
+    public function combine($module, $type, $is_minify = false, $has_stamp = false) {
         $files = $this->config['modules'][$module][$type];
         if (!$is_minify) {
-            $save_path = $this->config['outputFolder'] . "/$module.$type";
+            $save_path = $this->config['output_path'] . "/$module.$type";
         } else {
-            $save_path = $this->config['outputFolder'] . "/$module.min.$type";
+            $save_path = $this->config['output_path'] . "/$module.min.$type";
         }
         $handle = fopen($save_path, "w+");
         foreach ($files as $file) {
@@ -86,16 +85,22 @@ class Assetatic {
             unset($file);
         }
         fclose($handle);
+        if ($has_stamp) {
+            $stamp = substr(md5(file_get_contents($save_path)), 0, 6);
+            if (rename($save_path, $this->config['output_path'] . "/${module}_${stamp}.min.$type")) {
+                $save_path = $this->config['output_path'] . "/${module}_${stamp}.min.$type";
+            };
+        }
         return $save_path;
     }
 
-    public function get_tags($module, $type, $single = false) {
+    public function get_tags($module, $type, $combined = false) {
         if ($type === 'css') {
             $template = '<link rel="stylesheet" href="%s">';
         } elseif ($type === 'js') {
             $template = '<script src="%s"></script>';
         }
-        if ($single == true) {
+        if ($combined == true) {
             $path = $this->combine($module, $type);
             return sprintf($template, $path);
         } else {
@@ -112,15 +117,15 @@ class Assetatic {
     /**
      * Generate CSS link tags belonging to a specific module.
      */
-    public function stylesheet_tags($module, $single = false) {
-        return $this->get_tags($module, 'css', $single);
+    public function stylesheet_tags($module, $combined = false) {
+        return $this->get_tags($module, 'css', $combined);
     }
 
     /**
      * Generate JavaScript script tags belonging to a specific module.
      */
-    public function javascript_tags($module, $single = false) {
-        return $this->get_tags($module, 'js', $single);
+    public function javascript_tags($module, $combined = false) {
+        return $this->get_tags($module, 'js', $combined);
     }
 
 }

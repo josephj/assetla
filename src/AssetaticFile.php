@@ -8,7 +8,7 @@
  *     echo $file->output(); // Must be valid JavaScript format.
  */
 
-require 'vendor/autoload.php';
+require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
@@ -37,8 +37,8 @@ class AssetaticFile {
         $this->config->sass_path      = (isset($config['sass_path'])) ? $config['sass_path'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
         $this->config->uglify_css_path = (isset($config['uglify_css_path'])) ? $config['uglify_css_path'] : 'node_modules/uglifycss/uglifycss';
         $this->config->uglify_js_path  = (isset($config['uglify_js_path'])) ? $config['uglify_js_path'] : 'node_modules/uglify-js/bin/uglifyjs';
-        // Output Folder (Optional, save to same directory)
-        $this->config->output_folder  = (isset($config['output_folder'])) ? $config['output_folder'] : null;
+        // Output Path (Optional, save to same directory)
+        $this->config->output_path  = (isset($config['output_path'])) ? $config['output_path'] : null;
     }
 
     private static function find($path) {
@@ -68,8 +68,8 @@ class AssetaticFile {
     public function save($target_dir = null) {
         // Decide output directory.
         if ( ! isset($target_dir)) { // via argument
-            if (isset($this->config->output_folder)) { // via config
-                $target_dir = $this->config->output_folder;
+            if (isset($this->config->output_path)) { // via config
+                $target_dir = $this->config->output_path;
             } else { // nothing provided, from file path
                 $target_dir = $this->file;
             }

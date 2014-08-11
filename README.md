@@ -12,7 +12,7 @@ Make modules for your CSS and JavaScript files. These files can be *.css, *.sass
 
 ````php
 array(
-    'outputFolder' => 'assets',
+    'output_path' => 'assets',
     'modules' => array(
         'admin_core' => array(
             'css' => array(

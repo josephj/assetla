@@ -1,5 +1,6 @@
 {
-    "name": "josephj/assetic-wrapper",
+    "name": "josephj/assetatic",
+    "description": "A wrapper of Assetic",
     "require": {
         "kriswallsmith/assetic": "*"
     },
