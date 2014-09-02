@@ -101,7 +101,7 @@ array(
 
 ## Installation
 
-1. git clone
+1. Grab the code `git@github.com:josephj/assetla.git`
 1. bundle install --path vendor/bundler
 1. npm install .
 1. Create a writable folder for outputing the compiled files. 
