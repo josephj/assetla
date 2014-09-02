@@ -132,7 +132,7 @@ array(
 
     ```php
     <?php
-    require('../../src/Assetla.php');
+    require 'vendor/autoload.php';
     $assetla = new Assetla('config.php');
     ?>
     <!DOCTYPE html>
@@ -140,15 +140,15 @@ array(
     <head>
     <meta charset="utf-8">
     <meta name="created" content="2014-09-02">
-    <title>Assetla</title>
-    <?php echo $assetla->stylesheet_tags('demo'); ?>
+    <title>Welcome</title>
+    <?php echo $assetla->stylesheet_tags('welcome'); ?>
     </head>
     <body>
-        <h1>Assetla</h1>
+        <h1>Welcome</h1>
         <div>
-           <p>Just a demo</p>
+           <p>Hello World!</p>
         </div>
-        <?php echo $assetla->javascript_tags('demo'); ?>
+        <?php echo $assetla->javascript_tags('welcome'); ?>
     </body>
     </html>
     ```
