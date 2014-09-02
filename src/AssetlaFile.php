@@ -33,10 +33,10 @@ class AssetlaFile {
         // Minify (Default false)
         $this->config->minify        = (isset($config['minify'])) ? $config['minify'] : false;
         // Compilers (Use local first)
-        $this->config->coffee_path    = (isset($config['coffee_path'])) ? $config['coffee_path'] : 'node_modules/coffee-script/bin/coffee';
-        $this->config->sass_path      = (isset($config['sass_path'])) ? $config['sass_path'] : 'vendor/bundler/ruby/2.0.0/bin/sass';
-        $this->config->uglify_css_path = (isset($config['uglify_css_path'])) ? $config['uglify_css_path'] : 'node_modules/uglifycss/uglifycss';
-        $this->config->uglify_js_path  = (isset($config['uglify_js_path'])) ? $config['uglify_js_path'] : 'node_modules/uglify-js/bin/uglifyjs';
+        $this->config->coffee_path    = (isset($config['coffee_path'])) ? $config['coffee_path'] : dirname(__FILE__) . '/../node_modules/coffee-script/bin/coffee';
+        $this->config->sass_path      = (isset($config['sass_path'])) ? $config['sass_path'] : dirname(__FILE__) . '/../vendor/bundler/ruby/2.0.0/bin/sass';
+        $this->config->uglify_css_path = (isset($config['uglify_css_path'])) ? $config['uglify_css_path'] : dirname(__FILE__) . '/../node_modules/uglifycss/uglifycss';
+        $this->config->uglify_js_path  = (isset($config['uglify_js_path'])) ? $config['uglify_js_path'] : dirname(__FILE__) . '/../node_modules/uglify-js/bin/uglifyjs';
         // Output Path (Optional, save to same directory)
         $this->config->output_path  = (isset($config['output_path'])) ? $config['output_path'] : null;
     }
