@@ -102,7 +102,54 @@ array(
 ## Installation
 
 1. git clone
-1. bundle
+1. bundle install --path vendor/bundler
 1. npm install .
+1. Create a writable folder for outputing the compiled files. 
+
+    ```
+    mkdir assets/out
+    chmod 777 assets/out
+    ```
 1. Set config
-1. Output css/js tags.
+    
+    ```php
+    return array(
+        'output_path' => 'assets/out',
+        'modules' => array(
+            'welcome' => array(
+                'css' => array(
+                    'assets/css/foo.sass',
+                ),
+                'js' => array(
+                    'assets/js/bar.coffee',
+                ),
+            ),
+        ),
+    );
+    ```
+
+1. Sample PHP view file using Assetla:
+
+```php
+<?php
+require('../../src/Assetla.php');
+$assetla = new Assetla('config.php');
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="created" content="2014-09-02">
+<title>Assetla</title>
+<?php echo $assetla->stylesheet_tags('demo'); ?>
+</head>
+<body>
+    <h1>Assetla</h1>
+    <div>
+       <p>Just a demo</p>
+    </div>
+    <?php echo $assetla->javascript_tags('demo'); ?>
+</body>
+</html>
+```
+    
