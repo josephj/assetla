@@ -4,3 +4,6 @@
 /node_modules
 /tests/fixture/assets/output/
 /tests/fixture/config.production.php
+/tests/manual/assets
+/tests/manual/config.*php
+!/tests/manual/config.sample.php

@@ -2,6 +2,13 @@
 
 return array(
     'output_path' => 'assets',
+    'deploy' => array( // For S3 deployment
+        'key' => '<api-public-key>',
+        'secret' => '<api-secret-key>',
+        'acl' => '<public-read>',
+        'bucket' => '<bucket-name>',
+        'path' => '<save-path>',
+    ),
     'modules' => array(
         'demo' => array(
             'css' => array(
@@ -17,3 +24,4 @@ return array(
         ),
     ),
 );
+
