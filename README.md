@@ -135,7 +135,7 @@ array(
 ## Installation
 
 1. Grab the code `git@github.com:josephj/assetla.git`
-1. You need to install several different packages from different package management systems.
+1. You need to install several different packages from different package management systems. These steps make sure you could get required compilers (ex. SASS, CoffeeScript, and UglifyJS) installed in local directory.  
   1. `composer install`
   1. `bundle install --path vendor/bundler`
   1. `npm install .`
