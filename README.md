@@ -118,16 +118,16 @@ Currently it only supports S3. You need to provide some information in `config.p
 
 Similar to precompilation, but it saves file to S3 instead.
 
-```php
-array(
-    'modules' => array(
-        'admin_core' => array(
-            'css' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_31a85b.min.css',
-            'js' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_6f5a8a.min.js'
+    ```php
+    array(
+        'modules' => array(
+            'admin_core' => array(
+                'css' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_31a85b.min.css',
+                'js' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_6f5a8a.min.js'
+            ),
         ),
-    ),
-);
-```
+    );
+    ```
 
 
 
