@@ -135,8 +135,10 @@ array(
 ## Installation
 
 1. Grab the code `git@github.com:josephj/assetla.git`
-1. bundle install --path vendor/bundler
-1. npm install .
+1. You need to install several different packages from different package management systems.
+  1. `composer install`
+  1. `bundle install --path vendor/bundler`
+  1. `npm install .`
 1. Create a writable folder for outputing the compiled files. 
 
     ```
