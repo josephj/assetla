@@ -103,31 +103,31 @@ array(
 
 Currently it only supports S3. You need to provide some information in `config.php`.
 
-    ```php
-    return array(
-        'deploy' => array( // For S3 deployment
-            'key' => '<api-public-key>',
-            'secret' => '<api-secret-key>',
-            'acl' => '<public-read>',
-            'bucket' => '<bucket-name>',
-            'path' => '<save-path>'
-        ),
-        // other settings        
+```php
+return array(
+    'deploy' => array( // For S3 deployment
+        'key' => '<api-public-key>',
+        'secret' => '<api-secret-key>',
+        'acl' => '<public-read>',
+        'bucket' => '<bucket-name>',
+        'path' => '<save-path>'
     ),
-    ```
+    // other settings        
+),
+```
 
 Similar to precompilation, but it saves file to S3 instead.
 
-    ```php
-    array(
-        'modules' => array(
-            'admin_core' => array(
-                'css' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_31a85b.min.css',
-                'js' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_6f5a8a.min.js'
-            ),
+````php
+array(
+    'modules' => array(
+        'admin_core' => array(
+            'css' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_31a85b.min.css',
+            'js' => 'https://<bucket-name>.s3.amazonaws.com/<path>/admin_core_6f5a8a.min.js'
         ),
-    );
-    ```
+    ),
+);
+````
 
 
 
