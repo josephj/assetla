@@ -7,7 +7,8 @@
    "require-dev": {
         "phpunit/phpunit": "4.1.*",
         "codeclimate/php-test-reporter": "dev-master",
-        "aws/aws-sdk-php": "2.6.15"
+        "aws/aws-sdk-php": "2.6.15",
+        "joetannenbaum/climate": "~1.0"
     },
     "license": "MIT",
     "authors": [
