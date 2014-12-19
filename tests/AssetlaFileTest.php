@@ -2,7 +2,7 @@
 
 require_once './src/AssetlaFile.php';
 
-class Asstatic_File_Test extends PHPUnit_Framework_TestCase
+class AssetlaFile_Test extends PHPUnit_Framework_TestCase
 {
 
     protected $assetla_file;

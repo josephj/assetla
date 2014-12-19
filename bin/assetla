@@ -1,93 +1,10 @@
 #!/usr/bin/env php
 <?php
-/**
- * Generate a new config.
- *
- * @author Joseph Chiang <josephj6802@gmail.com>
- */
 
-// Required libraries.
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
-require_once dirname(__FILE__) . '/../src/Assetla.php';
+require_once dirname(__FILE__) . '/../src/CLI.php';
+require_once dirname(__FILE__) . '/../src/command/PrecompileCommand.php';
+require_once dirname(__FILE__) . '/../src/command/DeployCommand.php';
 
-use Aws\Common\Aws;
-use Aws\S3\S3Client;
-use Aws\S3\Exception\S3Exception;
-
-set_exception_handler('handleException');
-
-// Basic argument check
-$action = $argv[1];
-$config_path = $argv[2];
-if ( ! isset($action)) {
-    throw new Exception('No action specified');
-}
-if ( ! isset($config_path)) {
-    $config_path = './config.php';
-}
-if ( ! in_array($action, array('precompile', 'deploy'))) {
-    throw new Exception('Not a valid action');
-}
-
-$assetla = new Assetla($config_path);
-$config = include $config_path;
-$modules = $config['modules'];
-$deploy = $config['deploy'];
-
-if ($action === 'deploy') {
-    $s3config = array(
-        'key' => $deploy['key'],
-        'secret' => $deploy['secret']
-    );
-    $s3 = Aws::factory($s3config)->get('s3');
-}
-
-foreach ($modules as $name => $types) {
-    foreach ($types as $type => $files) {
-        $file = $assetla->combine($name, $type, true, true);
-        if ($action === 'deploy') {
-            try {
-                // Get MIME Type
-                $extension = end(explode('.', $file));
-                if ($extension === 'js') {
-                    $content_type = 'application/x-javascript';
-                } else {
-                    $content_type = 'text/css';
-                }
-                // Get path
-                $path = $deploy['path'] . '/' . basename($file);
-
-                // Upload
-                $s3->putObject(array(
-                    'Bucket' => $deploy['bucket'],
-                    'Key' => $path,
-                    'SourceFile' => $file,
-                    'ACL' => $deploy['acl'],
-                    'ContentType' => $content_type,
-                ));
-                $url = sprintf('https://%s.s3.amazonaws.com/%s', $deploy['bucket'], $path);
-                $config['modules'][$name][$type] = array($url);
-            } catch (S3Exception $e) {
-                echo "There was an error uploading the file.\n";
-            }
-        } else {
-            $config['modules'][$name][$type] = array($file);
-        }
-    }
-}
-$content = var_export($config, TRUE);
-$content = "<?php\nreturn $content;\n";
-
-// Save to new file
-if ($action === 'deploy') {
-    $action = 'production';
-}
-$save_config = str_replace('.php', ".${action}.php", $config_path);
-file_put_contents($save_config, $content);
-echo $save_config . "\n";
-
-function handleException(Exception $ex) {
-    echo $ex->getMessage() . "\n";
-}
-
-?>
+$app = new CLI;
+$app->runWithTry($argv);
